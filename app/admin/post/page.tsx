@@ -36,6 +36,7 @@ export default function PostPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [token, setToken] = useState<string | null>(null);
   
   // Form data
   const [formData, setFormData] = useState<PostFormData>({
@@ -57,28 +58,26 @@ export default function PostPage() {
     postTitle: "",
   });
 
-  const getUserToken = () => {
-    const stored = localStorage.getItem('currentUser');
-    if (!stored) return null;
-    
-    try {
-      const userData = JSON.parse(stored);
-      return userData.access_token || "";
-    } catch (error) {
-      console.error("Error parsing user data:", error);
-      return null;
-    }
-  };
-
-  const token = getUserToken();
-
   useEffect(() => {
-    if (!token) {
-      toast.error("Không tìm thấy thông tin đăng nhập");
+    const stored = localStorage.getItem("currentUser");
+
+    if (!stored) {
+      setToken(null);
       return;
     }
-    fetchPosts();
+
+    try {
+      const userData = JSON.parse(stored);
+      setToken(userData.access_token || null);
+    } catch {
+      setToken(null);
+    }
   }, []);
+
+  useEffect(() => {
+    if (!token) return;
+    fetchPosts();
+  }, [token]);
 
   useEffect(() => {
     if (editingPost) {
