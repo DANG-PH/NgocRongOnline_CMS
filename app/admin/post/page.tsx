@@ -47,6 +47,8 @@ export default function PostPage() {
   });
   const [errors, setErrors] = useState<Partial<PostFormData>>({});
   
+  const [mounted, setMounted] = useState(false);
+
   // Delete modal
   const [deleteModal, setDeleteModal] = useState<{
     isOpen: boolean;
@@ -59,6 +61,12 @@ export default function PostPage() {
   });
 
   useEffect(() => {
+    setMounted(true);   
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;   
+
     const stored = localStorage.getItem("currentUser");
 
     if (!stored) {
@@ -72,7 +80,7 @@ export default function PostPage() {
     } catch {
       setToken(null);
     }
-  }, []);
+  }, [mounted]);   
 
   useEffect(() => {
     if (!token) return;
@@ -249,7 +257,7 @@ export default function PostPage() {
     setDeleteModal({ isOpen: false, postId: null, postTitle: "" });
   };
 
-  if (!token) {
+  if (!mounted || !token) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
