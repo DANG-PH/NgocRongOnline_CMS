@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import PostPage from '@/app/admin/post/page';
+import PostPage from '@/app/admin/post/PostClient';
 import EditService from '@/services/editService';
 import toast from 'react-hot-toast';
 
