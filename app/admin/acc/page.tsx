@@ -142,6 +142,7 @@ export default function AccountManagementComplete() {
         formData.username,
         formData.password,
         formData.price,
+        formData.description,
         formData.url
       );
       

@@ -2,11 +2,12 @@ import { api } from '../api/client';
 
 class accService {
     // đăng acc cần bán 
-    async createAccountSell (token: string, username: string , password: string, price: number, url: string) {
+    async createAccountSell (token: string, username: string , password: string, price: number,description: string, url: string) {
         const response = await api.post('/partner/create-account-sell', {
         username: username,
         password: password,
         price: price,
+        description: description,
         url: url,
       }, {
         headers: {
